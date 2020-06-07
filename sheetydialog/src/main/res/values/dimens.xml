@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="cornerRadius">6dp</dimen>
+
+    <dimen name="dialogTopFreeSpace">48dp</dimen>
+
+    <dimen name="backgroundDimAmount">0.6</dimen>
+
+</resources>

@@ -1,0 +1,2 @@
+include ':sample', ':sheetydialog'
+rootProject.name='SheetyDialog Sample'
