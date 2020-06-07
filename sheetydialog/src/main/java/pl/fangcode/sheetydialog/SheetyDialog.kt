@@ -9,12 +9,12 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.DialogFragment
+import kotlinx.android.synthetic.main.view_sheety_dialog.*
 
 open class SheetyDialog : DialogFragment() {
 
-    private lateinit var backgroundInAnimation: Animation
-    private lateinit var backgroundOutAnimation: Animation
     private lateinit var contentInAnimation: Animation
     private lateinit var contentOutAnimation: Animation
 
@@ -22,7 +22,9 @@ open class SheetyDialog : DialogFragment() {
 
     private var dimAmount: Float = 0f
 
-    private lateinit var statusBarAnimation: ValueAnimator
+    private lateinit var fadeAnimation: ValueAnimator
+
+    private var initialStatusBarColor = Color.BLACK
 
     override fun getTheme(): Int = R.style.SheetyDialogStyles
 
@@ -31,8 +33,6 @@ open class SheetyDialog : DialogFragment() {
 
         dimAmount = ResourcesCompat.getFloat(resources, R.dimen.backgroundDimAmount)
 
-        backgroundInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-        backgroundOutAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
         contentInAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
         contentOutAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_down)
 
@@ -49,11 +49,11 @@ open class SheetyDialog : DialogFragment() {
             }
         })
 
-        statusBarAnimation = ValueAnimator.ofFloat(0f, dimAmount).apply {
+        fadeAnimation = ValueAnimator.ofFloat(0f, dimAmount).apply {
             duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
             interpolator = AccelerateInterpolator()
             addUpdateListener {
-                updateStatusBarAlphaChannel(it.animatedValue as Float)
+                fadeAnimationStep(it.animatedValue as Float)
             }
         }
 
@@ -74,13 +74,14 @@ open class SheetyDialog : DialogFragment() {
             it.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             it.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             it.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+
+            initialStatusBarColor = it.statusBarColor
         }
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
         dialog.setOnShowListener {
-            dialog.findViewById<View>(R.id.background).startAnimation(backgroundInAnimation)
             dialog.findViewById<View>(R.id.contentContainer).startAnimation(contentInAnimation)
-            statusBarAnimation.start()
+            fadeAnimation.start()
         }
 
         dialog.setOnKeyListener { _, keyCode, event ->
@@ -101,19 +102,14 @@ open class SheetyDialog : DialogFragment() {
      */
     open fun close() {
         if (hasContentShown) {
-            dialog?.findViewById<View>(R.id.background)?.startAnimation(backgroundOutAnimation)
             dialog?.findViewById<View>(R.id.contentContainer)?.startAnimation(contentOutAnimation)
-            statusBarAnimation.reverse()
+            fadeAnimation.reverse()
         }
     }
 
-    private fun updateStatusBarAlphaChannel(alpha: Float) {
-        dialog?.window?.statusBarColor = Color.argb(
-            (255 * alpha).toInt(),
-            0,
-            0,
-            0
-        )
+    private fun fadeAnimationStep(alpha: Float) {
+        background?.alpha = alpha
+        dialog?.window?.statusBarColor = ColorUtils.blendARGB(initialStatusBarColor, Color.BLACK, alpha)
     }
 
 }
