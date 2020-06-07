@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.content.res.ResourcesCompat
@@ -50,6 +51,7 @@ open class SheetyDialog : DialogFragment() {
 
         statusBarAnimation = ValueAnimator.ofFloat(0f, dimAmount).apply {
             duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+            interpolator = AccelerateInterpolator()
             addUpdateListener {
                 updateStatusBarAlphaChannel(it.animatedValue as Float)
             }
