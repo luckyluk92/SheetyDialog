@@ -13,8 +13,8 @@ class SampleSheetyDialog : SheetyDialog() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.view_sheety_dialog, container, false)
-        inflater.inflate(R.layout.view_content, view.findViewById(R.id.contentContainer), true)
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        inflater.inflate(R.layout.view_content, view?.findViewById(R.id.contentContainer), true)
         return view
     }
 
