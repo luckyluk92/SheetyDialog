@@ -10,6 +10,8 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.view_sheety_dialog.*
 
@@ -67,6 +69,15 @@ open class SheetyDialog : DialogFragment() {
         return inflater.inflate(R.layout.view_sheety_dialog, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (!fadeAnimation.isStarted) {
+            background.alpha = 0f
+            contentContainer.isInvisible = true
+        }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
 
@@ -80,7 +91,10 @@ open class SheetyDialog : DialogFragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
 
         dialog.setOnShowListener {
-            dialog.findViewById<View>(R.id.contentContainer).startAnimation(contentInAnimation)
+            dialog.findViewById<View>(R.id.contentContainer).let {
+                it.isVisible = true
+                it.startAnimation(contentInAnimation)
+            }
             fadeAnimation.start()
         }
 
