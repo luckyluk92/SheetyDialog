@@ -21,6 +21,7 @@ open class SheetyDialog : DialogFragment() {
     private lateinit var contentOutAnimation: Animation
 
     private var hasContentShown = false
+    private var isClosing = false
 
     private var dimAmount: Float = 0f
 
@@ -99,7 +100,9 @@ open class SheetyDialog : DialogFragment() {
         }
 
         dialog.setOnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+            // isClosing flag prevents restart closing animation if user clicks back button multiple times
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP && !isClosing) {
+                isClosing = true
                 close()
                 true
             } else {
@@ -108,6 +111,11 @@ open class SheetyDialog : DialogFragment() {
         }
 
         return dialog
+    }
+
+    override fun onStart() {
+        super.onStart()
+        isClosing = false
     }
 
     /**

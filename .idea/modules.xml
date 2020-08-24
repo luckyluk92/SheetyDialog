@@ -3,11 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SheetyDialog Sample.iml" filepath="$PROJECT_DIR$/SheetyDialog Sample.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sample/SheetyDialog-sample.iml" filepath="$PROJECT_DIR$/sample/SheetyDialog-sample.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sheetydialog/SheetyDialog-sheetydialog.iml" filepath="$PROJECT_DIR$/sheetydialog/SheetyDialog-sheetydialog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sample/SheetyDialog-sample.iml" filepath="$PROJECT_DIR$/sample/SheetyDialog-sample.iml" group="SheetyDialog Sample/sample" />
+      <module fileurl="file://$PROJECT_DIR$/sheetydialog/SheetyDialog-sheetydialog.iml" filepath="$PROJECT_DIR$/sheetydialog/SheetyDialog-sheetydialog.iml" group="SheetyDialog Sample/sheetydialog" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SheetyDialog_Sample.iml" filepath="$PROJECT_DIR$/.idea/modules/SheetyDialog_Sample.iml" group="SheetyDialog_Sample" />
       <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/sheetydialog/sheetydialog.iml" filepath="$PROJECT_DIR$/sheetydialog/sheetydialog.iml" />
-      <module fileurl="file://$PROJECT_DIR$/workplace-SheetyDialog Sample.iml" filepath="$PROJECT_DIR$/workplace-SheetyDialog Sample.iml" />
     </modules>
   </component>
 </project>
